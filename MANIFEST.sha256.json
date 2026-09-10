@@ -73,8 +73,8 @@
     },
     {
       "path": "docs/TENCENT_ACCEPTANCE_AUDIT.md",
-      "bytes": 4934,
-      "sha256": "71280e5a262260472d3ba1f53062c7028aa9f01e14db4fb356af8311dea8b1a3"
+      "bytes": 5005,
+      "sha256": "e4d3ec6a06167e33b9a2cfe551903c373ccc82d595bcffb124f34b25aa48bada"
     },
     {
       "path": "env/environment.json",
@@ -338,3 +338,4 @@
     }
   ]
 }
+
