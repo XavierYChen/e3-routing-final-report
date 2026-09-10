@@ -80,9 +80,17 @@ P2 没有把检测框当作路由热图，而是通过临时 forward hook 捕获
 
 ![Appearance sensitivity](../artifacts/stages/p2/appearance-sensitivity.png)
 
+误差条汇总 4 张图片 × 4 个路由层的 16 个比较单元，表示描述性样本标准差，不作为独立样本置信区间。实际输入审计同时保存原图、亮度 ±10%、对比度 ±10% 与 Gaussian blur 0.75；所有变换保持相同空间几何。
+
+![Appearance input audit](../artifacts/stages/p2/appearance-inputs.png)
+
 ![Router attribution](../artifacts/stages/p2/router-attribution.png)
 
-P2 仓库还提供训练后交互页、恰好 120.0 秒的 MP4、五族 capability manifest、分辨率/翻转稳定性、FG/BG 区域比较、散点图和专家概率柱图。视频为 1600×900、10 fps，SHA-256 为 `8144ede69b97825cf3ccea49e680bac3c60e3579613e267d2935eaca52f4e9c2`。完整证据见 [P2 仓库](https://github.com/XavierYChen/e3-routing-p2)。
+相对 attribution 之外，P2 还在统一 `log10` 色阶上报告 MOT/MOA 各层绝对 probability MAE，防止“小变化中的最大占比”被误读成“大幅响应”。
+
+![Absolute router sensitivity](../artifacts/stages/p2/router-absolute-sensitivity.png)
+
+P2 仓库还提供训练后交互页、恰好 120.0 秒的 MP4、五族 capability manifest、分辨率/翻转稳定性、FG/BG 区域比较、散点图和专家概率柱图。视频为 1600×900、10 fps，SHA-256 为 `2fe635d3b4ed58846022f40c65b7ff0d4d1965aa3734789ec2fc404e0e46d040`。完整证据见 [P2 仓库](https://github.com/XavierYChen/e3-routing-p2)。
 
 ![MOT 逐层真实活跃专家](../artifacts/stages/p2/trained-mot-layer-focus.png)
 

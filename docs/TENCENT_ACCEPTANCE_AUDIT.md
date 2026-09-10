@@ -24,7 +24,7 @@
 | P1：on/off、warm-up、重复与区间 | 配置、raw runs、bootstrap CI | ✅ | MOT GPU 非确定性已显式说明 |
 | P2：token 路由叠加原图 | MOT/MOA 真 `[E,H,W]` overlay | ✅ | letterbox 反变换与 padding 排除有验证 |
 | P2：更多路由族 | 五族 capability manifest | ✅/降级 | 只有 MOT/MOA 有空间轴；其余三族禁止伪造热图 |
-| P2：外观/路由分析图 | sensitivity、attribution、scatter、usage | ✅ | 概率、argmax、margin 联合解释 |
+| P2：外观/路由分析图 | input audit、sensitivity、relative/absolute attribution、scatter、usage | ✅ | 固定几何；描述性 SD；概率、argmax、margin 联合解释 |
 | P2：2 分钟 demo | 训练后交互页 + 120.0 秒 MP4 + SHA-256 | ✅ | 1600×900、10 fps；抽帧覆盖路由与四类分析图 |
 | 至少 3 seed 或声明局限 | P1 与 Final 消融 3 seeds | ✅ | 单 checkpoint P2 图仍标明单 seed |
 | 负结果有预定义判读线 | Final `configs/ablation.yaml` | ✅ | MOA 未过线，如实报告 |

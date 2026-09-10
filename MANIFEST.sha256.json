@@ -27,9 +27,19 @@
       "sha256": "feac6f0f802558650a6cc46d2f6bdfd9c2113a1d98ffdeb5237ca842bfde9b96"
     },
     {
+      "path": "artifacts/stages/p2/appearance-inputs.png",
+      "bytes": 3509966,
+      "sha256": "562046c8ad40b3dc24d7089736ddca2ff2a125efabd3c0f7e0a4822304570d6c"
+    },
+    {
       "path": "artifacts/stages/p2/appearance-sensitivity.png",
-      "bytes": 155189,
-      "sha256": "6e4d89530c1b1ee9010b278316241a3b1328f9b2cf39c83b9e5dadd6c43c0e8f"
+      "bytes": 155570,
+      "sha256": "3d8bd9f6cc2517e4995dd45860e3ea900b46f54f1b050992877fd26a44004c5e"
+    },
+    {
+      "path": "artifacts/stages/p2/router-absolute-sensitivity.png",
+      "bytes": 228620,
+      "sha256": "67e87cc825159e884887b82687dc0cb5d836762dd0c2cd78649e1a9bb006e8ad"
     },
     {
       "path": "artifacts/stages/p2/router-attribution.png",
@@ -38,8 +48,8 @@
     },
     {
       "path": "artifacts/stages/p2/trained-demo-contact-sheet.jpg",
-      "bytes": 461939,
-      "sha256": "ec97657209fb8edd9b5d239b0126f8fcdb08b91eb5a774663e61428565cf0337"
+      "bytes": 587165,
+      "sha256": "f9f9a5ae790ec1ae8f716fa80cc0f928abe3fae73d97e14ade6065d8285f54ec"
     },
     {
       "path": "artifacts/stages/p2/trained-mot-layer-focus.png",
@@ -68,8 +78,8 @@
     },
     {
       "path": "docs/FINAL_RESEARCH_REPORT.md",
-      "bytes": 14107,
-      "sha256": "1ba45a60d0d14990d0fdd6474747a344b12c1d2aa5ffecc0727f0a8cde7eaccb"
+      "bytes": 14912,
+      "sha256": "c5a441adceed54f9bf8f849a4d887c0d4129a9c984c9cb2dc5cc9de51cc97716"
     },
     {
       "path": "docs/PR_DESCRIPTION.md",
@@ -78,13 +88,13 @@
     },
     {
       "path": "docs/README_RESULT_AUDIT.md",
-      "bytes": 1954,
-      "sha256": "679ae7c2a98f03203b2dbd8e54fe02df716bef4a843755ed65f5dd87d828f212"
+      "bytes": 2065,
+      "sha256": "4b5ac274e8628d8c662675169f04b77a0557cdedd95c9a9d42e7d6803761b8b9"
     },
     {
       "path": "docs/TENCENT_ACCEPTANCE_AUDIT.md",
-      "bytes": 4805,
-      "sha256": "b5c2cb7f0f38046bf6f8622ba29519134154c873abf53b200644e4b78f87379b"
+      "bytes": 4924,
+      "sha256": "ba47990daf39e2964c0d3ab7738f04aefd2373f1a17bbbf98e341b4f5f96786e"
     },
     {
       "path": "env/environment.json",
@@ -275,11 +285,6 @@
       "path": "results/routing-ablation-20260909/config.resolved.yaml",
       "bytes": 2086,
       "sha256": "45e99e24974af2dbf34381e0a03b0e9458e6af83caae80896cf393f2befea80c"
-    },
-    {
-      "path": "results/routing-ablation-20260909/manifest.sha256.json",
-      "bytes": 1684,
-      "sha256": "96d850fd7cc335898ef853cdd5f45d9def62479bb9112a1bf4a87023832a0d52"
     },
     {
       "path": "results/routing-ablation-20260909/overlay-moa-pretrained_init.png",
