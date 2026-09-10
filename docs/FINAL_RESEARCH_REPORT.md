@@ -14,7 +14,8 @@
 
 | 项目 | 锁定值 |
 |---|---|
-| 腾讯源仓库 commit | `dab47c5e6e3d680c8d62576cf291e66431758873` |
+| 腾讯上游基线 commit | `246e79cfe418cfd90f4738bace56b02245dc38f8` |
+| 本地 Smoke 集成 commit | `dab47c5e6e3d680c8d62576cf291e66431758873`（基于上述基线） |
 | 基础权重 | `yolo26n.pt`，SHA-256 `9b09cc8bf347f0fc8a5f7657480587f25db09b34bf33b0652110fb03a8ad4fef` |
 | 数据 | COCO8，本地 4 train / 4 val；消融使用全部 4 张 val 图 |
 | 训练预算 | 10 epochs，batch 1，imgsz 640，scale 0.5，mosaic 1.0，mixup 0.0，copy-paste 0.1 |
@@ -23,7 +24,7 @@
 | 硬件 | NVIDIA GeForce RTX 3060 Laptop GPU 6 GB；PyTorch 2.11.0+cu128 |
 | 安全 | 固定数据与检查点路径；不接受任意 shell；结果中不含个人数据；`.pt` 不上传 |
 
-腾讯源仓库工作树在接手前已有 Smoke 相关本地改动。本项目没有继续修改腾讯原文件，所有实现与结果均放入 `E3-Routing-*` 兄弟目录；源 commit 与实际输入文件哈希分别记录，以免把工作树状态误写成纯净上游版本。
+腾讯源仓库工作树在接手时已有 Smoke 集成 commit 与未提交改动。P0–P2 和消融没有继续修改腾讯核心 `forward`，主要实现与结果均放入 `E3-Routing-*` 兄弟目录；报告分别记录腾讯上游基线、本地集成 commit 和实际输入文件哈希，避免把本地分支误写成纯净上游版本。当前 `origin/main` 后续已移动到 `0854b5d72cc64b92ffa73f0d7000e3ec057d3b53`，本实验没有用该更新重跑，因此不把它写成实验基线。
 
 训练是否改善“专家分工”的判读线在分析前写入 `configs/ablation.yaml`：相对仅迁移条件，top-1 margin 增长至少 25%、空间变化增长至少 25%、全专家活跃率增加至少 10 个百分点，三项至少满足两项，同时外观一致率下降不得超过 5 个百分点。预训练条件的 MOT 空间变化恰为 0 时，采用严格正变化判定，并在 JSON 中以 `null` 标记不可定义的相对增幅。
 
@@ -79,7 +80,11 @@ P2 没有把检测框当作路由热图，而是通过临时 forward hook 捕获
 
 ![Router attribution](../artifacts/stages/p2/router-attribution.png)
 
-P2 仓库还提供两分钟演示脚本、五族 capability manifest、分辨率/翻转稳定性、FG/BG 区域比较、散点图和专家概率柱图。完整证据见 [P2 仓库](https://github.com/XavierYChen/e3-routing-p2)。
+P2 仓库还提供训练后交互页、恰好 120.0 秒的 MP4、五族 capability manifest、分辨率/翻转稳定性、FG/BG 区域比较、散点图和专家概率柱图。视频为 1600×900、10 fps，SHA-256 为 `8144ede69b97825cf3ccea49e680bac3c60e3579613e267d2935eaca52f4e9c2`。完整证据见 [P2 仓库](https://github.com/XavierYChen/e3-routing-p2)。
+
+![MOT 逐层真实活跃专家](../artifacts/stages/p2/trained-mot-layer-focus.png)
+
+![两分钟训练后演示抽帧](../artifacts/stages/p2/trained-demo-contact-sheet.jpg)
 
 ## 7. 消融实验设计
 

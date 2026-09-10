@@ -5,7 +5,9 @@
   "pytorch": "2.11.0+cu128",
   "ultralytics": "8.4.101 (Tencent working tree)",
   "gpu": "NVIDIA GeForce RTX 3060 Laptop GPU, 6144 MiB",
-  "tencent_source_commit": "dab47c5e6e3d680c8d62576cf291e66431758873",
+  "tencent_upstream_baseline_commit": "246e79cfe418cfd90f4738bace56b02245dc38f8",
+  "local_smoke_integration_commit": "dab47c5e6e3d680c8d62576cf291e66431758873",
+  "current_origin_main_not_used": "0854b5d72cc64b92ffa73f0d7000e3ec057d3b53",
   "base_weight_sha256": "9b09cc8bf347f0fc8a5f7657480587f25db09b34bf33b0652110fb03a8ad4fef",
   "stage_local_commits": {
     "smoke": "d890502c7795a79710f8377952776157dc4605b0",
@@ -15,4 +17,3 @@
   },
   "note": "Published GitHub stage branches contain later documentation commits uploaded through the GitHub API; experiment payload hashes remain recorded in each stage manifest."
 }
-
