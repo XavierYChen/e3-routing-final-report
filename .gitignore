@@ -1,0 +1,8 @@
+.runtime/
+Ultralytics/
+__pycache__/
+.pytest_cache/
+*.pt
+*.pth
+*.onnx
+
