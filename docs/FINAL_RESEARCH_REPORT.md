@@ -42,7 +42,9 @@ P0 将 MOE、MOT、LATENT 映射到同一 `e3.routing_snapshot` 契约，共生�
 
 ![P0 contract coverage](../artifacts/stages/p0/contract-coverage.png)
 
-P0 的静态图与 Smoke 图可能视觉相似，因为两者使用同一类样本；区别在于 P0 验收的是统一字段契约、日志验证器和三族可比较输出，而 Smoke 验收的是一次准入链路。完整 schema 和测试证据见 [P0 仓库](https://github.com/XavierYChen/e3-routing-p0)。
+![P0 cross-family routing summary](../artifacts/stages/p0/routing-cross-family.png)
+
+第二张图汇总同一次单图 snapshot 中 13 个路由层的平均熵、Gini 与主导专家占比。MOE 使用 Top-K 选择占比，MOT/LATENT 使用平均混合概率，因此该图用于状态检查，不用于跨族性能排名。P0 的静态图与 Smoke 图可能视觉相似，因为两者使用同一类样本；区别在于 P0 验收的是统一字段契约、日志验证器和三族可比较输出，而 Smoke 验收的是一次准入链路。完整 schema 和测试证据见 [P0 仓库](https://github.com/XavierYChen/e3-routing-p0)。
 
 ## 5. P1：实时面板与训练开销
 

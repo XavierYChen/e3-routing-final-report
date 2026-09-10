@@ -12,6 +12,11 @@
       "sha256": "82c407fd118a1cfda351b80642b76850bb8edb4027061c881b533c52d6bd608e"
     },
     {
+      "path": "artifacts/stages/p0/routing-cross-family.png",
+      "bytes": 85490,
+      "sha256": "b35861a84b43ed8dbe9e65c088c813102fbe5830d0d4138623487cc96b005599"
+    },
+    {
       "path": "artifacts/stages/p1/dashboard.png",
       "bytes": 273368,
       "sha256": "d88653dcb85f71b95b492b6fe51e59a9f61a6df96eb8bf4a27863f7b10c7664c"
@@ -63,8 +68,8 @@
     },
     {
       "path": "docs/FINAL_RESEARCH_REPORT.md",
-      "bytes": 13783,
-      "sha256": "d2a172124977935d23df47e811715ca995d6e2908026a9ca2977fc9dd2f877d3"
+      "bytes": 14107,
+      "sha256": "1ba45a60d0d14990d0fdd6474747a344b12c1d2aa5ffecc0727f0a8cde7eaccb"
     },
     {
       "path": "docs/PR_DESCRIPTION.md",
@@ -72,9 +77,14 @@
       "sha256": "61d5637a9355203b94cd228e6014375cf2e44735c350601e2c060eabb3e9b6f2"
     },
     {
+      "path": "docs/README_RESULT_AUDIT.md",
+      "bytes": 1954,
+      "sha256": "679ae7c2a98f03203b2dbd8e54fe02df716bef4a843755ed65f5dd87d828f212"
+    },
+    {
       "path": "docs/TENCENT_ACCEPTANCE_AUDIT.md",
-      "bytes": 5005,
-      "sha256": "e4d3ec6a06167e33b9a2cfe551903c373ccc82d595bcffb124f34b25aa48bada"
+      "bytes": 4805,
+      "sha256": "b5c2cb7f0f38046bf6f8622ba29519134154c873abf53b200644e4b78f87379b"
     },
     {
       "path": "env/environment.json",
@@ -93,8 +103,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 2913,
-      "sha256": "2ee509b156d7d59ccfd40d2052c589650666b3e1fffaddce54a400b60c2700f6"
+      "bytes": 2972,
+      "sha256": "de5e351e36d6be28a8f86d01bdf6eda5259d24974ec326a0b10dd3913d78ac4e"
     },
     {
       "path": "results/checkpoint-training/seed-0/moa-confusion_matrix_normalized.png",
@@ -338,4 +348,3 @@
     }
   ]
 }
-
