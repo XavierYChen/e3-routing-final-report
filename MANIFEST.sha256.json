@@ -113,8 +113,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 2972,
-      "sha256": "de5e351e36d6be28a8f86d01bdf6eda5259d24974ec326a0b10dd3913d78ac4e"
+      "bytes": 3161,
+      "sha256": "1a889b2d2957a0c6d8f15a5ee5d60b081f737e4cd28694edce5e30f245247f4e"
     },
     {
       "path": "results/checkpoint-training/seed-0/moa-confusion_matrix_normalized.png",
@@ -350,6 +350,17 @@
       "path": "Ultralytics/settings.json",
       "bytes": 528,
       "sha256": "71905dafe7abd555285b6971ae054bac953b3efcd189e360c98fb0e7f9762280"
+    },
+    {
+      "path": "docs/UPSTREAM_CONTRIBUTION_READINESS.md",
+      "bytes": 4044,
+      "sha256": "8cd18c6031f6d60a3e96fb1d9514e6ead10e51f3caa37fe005f13fe18a892807"
+    },
+    {
+      "path": "docs/UPSTREAM_PR_DRAFT.md",
+      "bytes": 2289,
+      "sha256": "4855934fd87184255067e68edde409f72909ad335d745d9825b68a61e2e6ecfe"
     }
   ]
 }
+
