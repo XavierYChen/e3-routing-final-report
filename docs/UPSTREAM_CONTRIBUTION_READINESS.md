@@ -4,9 +4,9 @@
 
 ## 结论
 
-贡献代码已经整理在 fork 分支 [`feat/e3-routing-snapshot`](https://github.com/XavierYChen/YOLO-Master/tree/feat/e3-routing-snapshot)。该分支直接基于腾讯 `main` 的 `9eb6312fa3e4a17abd79bf47ab1e49d567d1a910`，领先 1 个提交、落后 0 个提交。跨仓库比较仅包含 4 个目标文件，没有夹带 Smoke、P0、P1、P2 的实验产物，也没有修改模型核心 `forward`。
+贡献代码已经整理在 fork 分支 [`feat/e3-routing-snapshot-ready`](https://github.com/XavierYChen/YOLO-Master/tree/feat/e3-routing-snapshot-ready)。该分支从腾讯 `main` 的 `639c4058a4710aed289d7231778bcfe6ff62d5bb` 创建，仅包含 1 个贡献提交。审计期间腾讯主线继续快速更新至 `cb82422026b3eab54fd7208cdd8e8e95bbf265d7`；跨仓库比较仍只包含 4 个目标文件，四个上游基线文件的 blob 均未变化，因此未发现内容冲突。分支没有夹带 Smoke、P0、P1、P2 的实验产物，也没有修改模型核心 `forward`。
 
-比较入口：<https://github.com/Tencent/YOLO-Master/compare/main...XavierYChen:YOLO-Master:feat/e3-routing-snapshot>
+比较入口：<https://github.com/Tencent/YOLO-Master/compare/main...XavierYChen:YOLO-Master:feat/e3-routing-snapshot-ready>
 
 ## 贡献范围
 
@@ -23,9 +23,9 @@ Schema 版本为 `yolo_master.routing_snapshot.v1`。每条记录包含家族、
 
 | 检查项 | 结果 |
 |---|---|
-| 上游基线 | `Tencent/YOLO-Master@9eb6312` |
-| merge base | `9eb6312`，与审计时腾讯 `main` 一致 |
-| ahead / behind | `1 / 0` |
+| 上游基线 | `Tencent/YOLO-Master@639c405` |
+| 审计时腾讯 main | `cb82422`；主线在审计期间持续更新 |
+| ahead / behind | `1 / 4`（截至本次审计；4 个目标文件无上游内容变化） |
 | 变更文件 | 4 |
 | 内容冲突 | 未发现 |
 | 原始腾讯工作区 | 未修改、未 rebase |
@@ -67,5 +67,4 @@ python tools/routing_interpreter.py ultralytics/cfg/models/26/yolo26-master-late
 2. PR 标题使用：`[犀牛鸟-E3]：增加版本化跨族路由快照与 Latent 支持`。
 3. 使用 `UPSTREAM_PR_DRAFT.md` 的四节正文，并附 E3 任务来源或认领说明。
 4. 创建 PR 后等待 CI；按机器人提示签署 CLA。
-
 
