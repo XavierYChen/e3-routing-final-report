@@ -353,8 +353,8 @@
     },
     {
       "path": "docs/UPSTREAM_CONTRIBUTION_READINESS.md",
-      "bytes": 4044,
-      "sha256": "8cd18c6031f6d60a3e96fb1d9514e6ead10e51f3caa37fe005f13fe18a892807"
+      "bytes": 4301,
+      "sha256": "67b30055be4c2f655663f13d44e632a74d5cb966ca6a44aebf1621a717fad016"
     },
     {
       "path": "docs/UPSTREAM_PR_DRAFT.md",
