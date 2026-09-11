@@ -1,46 +1,40 @@
 # 上游 PR 草稿
 
-<<<<<<< HEAD
 ## Title
 
 `[犀牛鸟-E3]：五族混合系统的路由透视镜`
 
 ## Summary
 
-This PR adds a versioned routing-snapshot contract to the existing YOLO-Master routing interpreter. It reuses removable hooks and current `last_routing_snapshot` state, and does not change model forward signatures, routing decisions, checkpoints, or training behavior.
+E3 需要为诊断工具、后续研究题和 WebUI 提供稳定的跨族 routing snapshot。现有解释器能够采集多类路由，但单图 CLI 只输出聚合报告，Latent 未进入统一文档与回归覆盖。
 
-- **P0:** exports one JSON-safe schema for routed-layer identity, expert load, mean router probabilities, entropy, Gini, dominant share, dead experts, spatial capability, and auxiliary-loss availability.
-- **P1:** keeps the event format directly consumable by the completed localhost dashboard and paired overhead benchmark.
-- **P2:** distinguishes genuine spatial `[B,E,H,W]` routes from global `[B,E]` distributions so downstream overlays fail closed instead of inventing pixel alignment.
-- **Family coverage:** explicitly documents and tests Latent, and resolves nested router leaves through their nearest MOE/MOA/MOT/LATENT/MOLoRA parent.
+本 PR 在现有 `RoutingInterpreter` 上增加版本化的 `yolo_master.routing_snapshot.v1` 记录，将每个已观测路由层的家族、专家负载、平均路由概率、概率形状、空间能力、熵、Gini、主导占比、死亡专家、坍塌状态和辅助损失可用性写为 JSON-safe 字段。单图 CLI 在保留原有静态图与 `routing_report.json` 的同时写出 `routing_snapshot.jsonl`。
 
-Single-image CLI runs now write `routing_snapshot.jsonl` beside the existing static figures and `routing_report.json`. The schema is versioned as `yolo_master.routing_snapshot.v1`, allowing WebUI and downstream studies to reject incompatible records rather than guessing field meanings.
+- **P0：** 统一 schema；显式支持 MOE、MOT、MOA、LATENT、MOLoRA，并覆盖 Latent 的真实 forward。
+- **P1：** JSONL 事件可直接供已完成的本地实时面板消费；三族、3 seeds、18 组 paired on/off 测量的中位减速均低于 10%。
+- **P2：** 依据实际概率张量形状区分空间路由 `[B,E,H,W]` 与全局分布 `[B,E]`，无法恢复二维 token 网格时显式降级，避免制造伪热图。
+- **安全边界：** 只读取既有 hooks 和 `last_routing_snapshot`；不修改模型核心 `forward`、路由决策、参数、checkpoint 或训练行为。
 
-## Acceptance results
+## Testing
 
-The code diff stays focused on four existing upstream files. Full experimental evidence remains in separate, manifest-bound repositories and is linked below.
+环境：Windows；Python 3.11.16；PyTorch 2.11.0+cu128；Ultralytics 8.4.101。
 
-| Level | Result |
-|---|---|
-| Smoke | COCO8 admission path completed for MOE/MOT/LATENT; field dictionary and overhead plan archived |
-| P0 | 13 routed modules emitted one validated contract with JSONL and static summaries |
-| P1 | MOE/MOT/LATENT localhost dashboard; 3 seeds and 18 paired runs; all median slowdowns below 10% |
-| P2 | Five-family capability audit; true original-image overlays for MOT/MOA; non-spatial families explicitly degraded |
-| Extra ablation | Random, transferred, and transferred + 10-epoch conditions; 3 seeds; 1,728 captures and 1,440 aligned comparisons |
+```bash
+python scripts/check_changed_quality.py
+python -m pytest -q tests/test_routing_interpreter.py tests/test_routing_diagnostics.py tests/test_latent_mixture.py
+python tools/routing_interpreter.py ultralytics/cfg/models/26/yolo26-master-latent-n.yaml path/to/image.jpg --imgsz 64 --device cpu --output runs/e3-review
+```
 
-### P1 overhead
+- Repository quality gate: **PASS**。
+- 路由、diagnostics 与 Latent 回归：**58 passed**。
+- 真实 forward CLI smoke：**PASS**；输出 9 条版本化记录，其中 6 个 MOE 叶子和 3 个 LATENT 模块，没有 `family=unknown`。
+- 2026-09-11 最新腾讯 `main` 为 `af961b99b8ef80491e58cb5fd16e25ebaf3741eb`；分叉后的 10 个上游提交未修改本 PR 的 4 个目标文件。
 
-| Family | Median slowdown | 3-seed bootstrap 95% CI | Verdict |
-|---|---:|---:|---|
-| MOE | -0.95% | [-1.84%, 3.31%] | PASS |
-| MOT | 2.15% | [-0.06%, 9.62%] | PASS |
-| LATENT | 1.66% | [-1.53%, 3.02%] | PASS |
-
-Negative values are treated as scheduler noise, not observer speedups. Data, warm-up, augmentation, training budget, and timing boundaries are matched between on/off pairs.
+Reviewer 可检查 `runs/e3-review/routing_snapshot.jsonl`。每行都声明 schema 版本、家族、层、路由统计、空间可用性、坍塌指标与辅助损失状态。
 
 ## Ablation study
 
-The additional study asks whether compatible Tencent weight transfer and ten COCO8 epochs change spatial expert participation. It compares random initialization, transferred weights without training, and transferred weights followed by 10 epochs under identical settings and three seeds.
+额外消融比较随机初始化、迁移腾讯兼容权重、迁移后训练 10 epochs 三种条件。各组使用同一 COCO8、输入尺寸、外观扰动、统计口径和 3 个 seeds；共归档 1,728 份路由捕获及 1,440 组对照。
 
 | Family | Condition | mAP50–95 | Mean active experts | All-3-active rate | Spatial variation | Appearance agreement |
 |---|---|---:|---:|---:|---:|---:|
@@ -51,60 +45,19 @@ The additional study asks whether compatible Tencent weight transfer and ten COC
 | MOA | Transfer | 0.0368 | 2.75 | 77.1% | 0.0047 | 98.1% |
 | MOA | Transfer + 10 epochs | 0.0359 | 2.92 | 91.7% | 0.0050 | 96.6% |
 
-MOT passes the preregistered routing-specialization rule through increased three-expert coverage and positive spatial variation while keeping the appearance-agreement drop below five percentage points. MOA increases expert coverage but misses the margin and spatial-variation thresholds, so the result is retained as a negative finding rather than described as clearer specialization. COCO8 detection values verify the pipeline only and are not presented as generalization claims.
+MOT 满足预先定义的路由分工判据：三专家覆盖率提高、空间变化为正，且外观一致率下降少于 5 个百分点。MOA 的专家覆盖率提高，但未同时满足 margin 与空间变化阈值，因此保留为负结果。COCO8 检测值只验证流水线，不作为泛化结论。
 
-## Implementation notes
+## P1 overhead
 
-- `RoutingInterpreter.routing_snapshot_records()` creates one versioned record per observed routed layer.
-- The CLI writes newline-delimited records for streaming consumers while preserving its existing JSON report and figures.
-- Spatial capability is derived from the captured probability shape; global routers remain distributions.
-- A leaf such as `EfficientSpatialRouter` inherits family identity from its nearest routed parent.
-- Tests are added to the existing `tests/test_routing_interpreter.py`, following the repository contribution rules.
+| Family | Median slowdown | 3-seed bootstrap 95% CI | Verdict |
+|---|---:|---:|---|
+| MOE | -0.95% | [-1.84%, 3.31%] | PASS |
+| MOT | 2.15% | [-0.06%, 9.62%] | PASS |
+| LATENT | 1.66% | [-1.53%, 3.02%] | PASS |
 
-## Verification
+负数按调度噪声解释，不声称 observer 能加速训练。on/off 对照的数据、预算、增广、warm-up 与计时边界一致。
 
-Environment: Windows, Python 3.11.16, PyTorch 2.11.0+cu128, Ultralytics 8.4.101.
-=======
-## 标题
-
-`[犀牛鸟-E3]：增加版本化跨族路由快照与 Latent 支持`
-
-## 改动摘要
-
-E3 需要为诊断工具和 WebUI 提供稳定的跨族 routing snapshot。现有解释器能够采集多类路由，但 CLI 只输出聚合报告，Latent 也没有出现在文档和回归覆盖中。
-
-本改动在现有 `RoutingInterpreter` 上增加 `yolo_master.routing_snapshot.v1` 记录，将每个已观测路由层的家族、专家负载、概率形状、空间能力、熵、Gini、坍塌指标和辅助损失状态写成 JSON-safe 字段。单图 CLI 同时输出 `routing_snapshot.jsonl`。家族识别支持叶子路由器从最近的 routed parent 继承 MOE/MOA/MOT/LATENT/MOLoRA 类型，不修改任何模型核心 `forward`。
-
-## 测试证据
-
-环境：Windows；Python 3.11.16；PyTorch 2.11.0+cu128；Ultralytics 8.4.101。
->>>>>>> 6f9937a (docs: add upstream contribution readiness package)
-
-```bash
-python scripts/check_changed_quality.py
-python -m pytest -q tests/test_routing_interpreter.py tests/test_routing_diagnostics.py tests/test_latent_mixture.py
-<<<<<<< HEAD
-python tools/routing_interpreter.py ultralytics/cfg/models/26/yolo26-master-latent-n.yaml <COCO8-image> --imgsz 64 --device cpu --output <output>
-```
-
-- Repository quality gate: **PASS**.
-- Routing, diagnostics, and Latent regression suite: **58 passed**.
-- Real-forward CLI smoke: **PASS**; 9 versioned records, comprising 6 MOE leaves and 3 LATENT modules; no `family=unknown` records.
-- Upstream comparison: one contribution commit and four changed files; no experiment artifacts or model weights.
-
-## Reviewer quick start
-
-From the YOLO-Master repository root:
-
-```bash
-python scripts/check_changed_quality.py
-python -m pytest -q tests/test_routing_interpreter.py tests/test_routing_diagnostics.py tests/test_latent_mixture.py
-python tools/routing_interpreter.py ultralytics/cfg/models/26/yolo26-master-latent-n.yaml path/to/image.jpg --imgsz 64 --device cpu --output runs/e3-review
-```
-
-Inspect `runs/e3-review/routing_snapshot.jsonl`. Each line declares its schema version, family, layer, routing statistics, spatial availability, collapse metrics, and auxiliary-loss status.
-
-## Evidence
+## Evidence and reproduction
 
 - Smoke: <https://github.com/XavierYChen/e3-routing-smoke>
 - P0: <https://github.com/XavierYChen/e3-routing-p0>
@@ -113,36 +66,13 @@ Inspect `runs/e3-review/routing_snapshot.jsonl`. Each line declares its schema v
 - Ablation and final report: <https://github.com/XavierYChen/e3-routing-final-report>
 - Contribution branch: <https://github.com/XavierYChen/YOLO-Master/tree/feat/e3-routing-snapshot-ready>
 
-## Demo video
+P2 仓库包含可复现的 120 秒浏览器演示、录屏脚本和中文女声硬字幕版。最新版移除了模拟光标，使用 Noto Sans SC 渲染 51 条中文字幕；开头、中段和结尾均有抽帧证据。
 
-The P2 repository contains the reproducible 120-second browser demo and its recording script. A narrated edition with real UI state changes and burned Chinese captions is prepared as a separate release asset so the clean evidence video remains reproducible.
+## Known limitations
 
-## Limitations
-
-- The upstream code change serializes observations; it does not train experts or alter routing behavior.
-- MOE, LATENT, and MOLoRA do not expose a reversible two-dimensional token grid at the audited hook boundary and are reported as non-spatial.
-- Dominant-expert colors are categorical argmax IDs, not clusters or semantic labels; probability, entropy, and margin must be read with the map.
-- Formal experiments use COCO8 and three seeds. They support mechanism and tooling claims, not detector generalization.
-- The overhead result is Windows/RTX 3060 evidence; no cross-device latency claim is made.
-- GitHub CI and CLA remain required after the PR is opened.
-
-=======
-```
-
-结果：质量门禁通过，58 项测试通过。另用 `yolo26-master-latent-n.yaml`、一张 COCO8 图片、CPU、`imgsz=64` 完成 CLI smoke，输出 9 条版本化记录（6 MOE、3 LATENT）及对应静态图。
-
-## 消融数据
-
-该 PR 只增加旁路诊断与序列化，不改变路由概率、模型参数或训练路径，因此模型精度消融不适用。on/off 验证口径是：关闭导出时沿用原有推理；开启 CLI 快照导出时读取同一次 capture 的结果。现有测试验证概率归一化、top-k 重建、空间/全局区分、Latent 记录和 CLI 文件输出。
-
-E3 的训练后专家分工、三 seed 和开销数据保存在独立研究包中，不把实验资产并入该上游代码 PR，以保持 review 范围集中。
-
-## 已知局限
-
-- `v1` 只序列化当前解释器能够观测到的路由层；未实现统一协议且无法从父模块识别的第三方路由器会标为 `unknown`。
-- 图像级路由只报告全局分布，不能生成空间热图。
-- `aux_loss.available=false` 表示本次采集没有可读状态，不代表模型从未定义辅助损失。
-- 正式 PR 仍需 GitHub CI 与 CLA；若腾讯 `main` 在提交前更新，需要重新检查 merge base 和 4 个目标文件。
->>>>>>> 6f9937a (docs: add upstream contribution readiness package)
-
-
+- `v1` 只序列化当前解释器能够观测到的路由层；无法从统一协议或父模块识别的第三方路由器标为 `unknown`。
+- MOE、LATENT 与 MOLoRA 在本次审计的 hook 边界不提供可逆二维 token 网格，只报告全局分布。
+- 主导专家颜色是 categorical argmax ID，不是聚类或语义标签；需结合概率、熵和 margin 解读。
+- 正式实验使用 COCO8 和 3 seeds，支持机制与工具链结论，不支持检测器泛化结论。
+- 开销数据来自 Windows/RTX 3060，不外推到其他设备。
+- PR 创建后仍需腾讯 GitHub CI 与 CLA 完成最终检查。
