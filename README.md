@@ -25,4 +25,5 @@
 
 MOT 满足预先定义的 2/3 路由判据，并守住外观一致率下降不超过 5 个百分点的红线。MOA 只满足专家覆盖率判据，因此不宣称其专家分工已变得更清晰。检测指标仅用于确认流水线可工作：COCO8 验证集只有 4 张图并与预训练域重合，不能代表模型泛化性能。
 
-完整方法、逐阶段证据、逐 seed 表格、局限和 PR 模板见 [最终研究报告](docs/FINAL_RESEARCH_REPORT.md)、[腾讯验收审计](docs/TENCENT_ACCEPTANCE_AUDIT.md)、[README 结果新旧审计](docs/README_RESULT_AUDIT.md) 与 [PR 描述](docs/PR_DESCRIPTION.md)。[检查点训练命令](scripts/TRAINING_COMMANDS.md) 记录六组固定预算训练；运行 `run_ablation.cmd` 可从本地检查点复现消融。检查点体积较大且不上传，报告记录了 SHA-256。
+完整方法、逐阶段证据、逐 seed 表格、局限和研究报告模板见 [最终研究报告](docs/FINAL_RESEARCH_REPORT.md)、[腾讯验收审计](docs/TENCENT_ACCEPTANCE_AUDIT.md)、[README 结果新旧审计](docs/README_RESULT_AUDIT.md) 与 [PR 描述](docs/PR_DESCRIPTION.md)。面向腾讯主仓的精简代码贡献已单独整理，见 [上游贡献就绪审计](docs/UPSTREAM_CONTRIBUTION_READINESS.md) 和 [上游 PR 草稿](docs/UPSTREAM_PR_DRAFT.md)。[检查点训练命令](scripts/TRAINING_COMMANDS.md) 记录六组固定预算训练；运行 `run_ablation.cmd` 可从本地检查点复现消融。检查点体积较大且不上传，报告记录了 SHA-256。
+
